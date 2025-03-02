@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thunder Mod UI</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 224, 0.3)), 
+                        url('https://i.ibb.co/HTGs1MWY/4cf2d58e-d31d-4629-a9e8-1c2bb0f13de8.jpg') 
+                        no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'El Messiri', sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 15px lightyellow;
+            backdrop-filter: blur(10px);
+        }
+        h2 {
+            color: lightyellow;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px lightyellow;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            font-family: 'El Messiri', sans-serif;
+        }
+        select {
+            background: lightyellow;
+            color: black;
+        }
+        button {
+            background: lightyellow;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 10px lightyellow;
+        }
+        button:hover {
+            background: white;
+            color: black;
+        }
+
+        /* Second UI */
+        #secondUI {
+            display: none;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.74);
+            border-radius: 15px;
+            border: 3px solid lightyellow;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .text-view {
+            font-size: 18px;
+            font-weight: bold;
+            color: lightyellow;
+            margin: 10px 0;
+            text-shadow: 0 0 10px lightyellow;
+            text-align: center;
+        }
+        .timer {
+            font-size: 20px;
+        }
+        .result-box {
+            width: 250px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid lightyellow;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: lightyellow;
+            font-size: 25px;
+            font-weight: bold;
+            text-shadow: 0 0 10px lightyellow;
+            text-align: center;
+        }
+        .button {
+            width: 110px;
+            height: 40px;
+            background: lightyellow;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 0 10px lightyellow;
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.1); }
+            50% { transform: rotate(30deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); opacity: 1; }
+        }
+        .fadeInScale {
+            animation: fadeInScale 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- First UI -->
+    <div id="firstUI" class="container">
+        <h2>Server: Any</h2>
+        <h2>Game: Any</h2>
+        <select id="server">
+            <option value="">Select Server</option>
+            <option value="V1">V1</option>
+            <option value="V3">V3</option>
+            <option value="V8">V8</option>
+            <option value="AI">AI</option>
+        </select>
+        <select id="game">
+            <option value="">Select Game</option>
+            <option value="51 Game">51 Game</option>
+            <option value="91 Club">91 Club</option>
+            <option value="BDG Game">BDG Game</option>
+            <option value="TC Lottery">TC Lottery</option>
+            <option value="82 Lottery">82 Lottery</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tiranga">Tiranga</option>
+        </select>
+        <button onclick="nextPage()">Next</button>
+    </div>
+
+    <!-- Second UI -->
+    <div id="secondUI">
+        <div class="container">
+            <div id="period1m" class="text-view">TextView</div>
+            <div id="timer1m" class="text-view timer">TextView</div>
+            <div class="result-box">
+                <span id="result-text">RESULT</span>
+            </div>
+            <button id="button1" class="button" onclick="generateResult()">CHANGE</button>
+        </div>
+    </div>
+
+    <script>
+        function updateTimer() {
+            let now = new Date();
+            let seconds = now.getUTCSeconds();
+            let remainingSeconds = 60 - seconds;
+            let totalMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+            document.getElementById("period1m").innerText = 
+                now.getUTCFullYear() + ("0" + (now.getUTCMonth() + 1)).slice(-2) + 
+                ("0" + now.getUTCDate()).slice(-2) + "1000" + (10001 + totalMinutes);
+            document.getElementById("timer1m").innerText = "00:" + ("0" + remainingSeconds).slice(-2);
+        }
+
+        setInterval(updateTimer, 1000);
+
+        function generateResult() {
+            let button = document.getElementById("button1");
+            let resultText = document.getElementById("result-text");
+            let periodElement = document.getElementById("period1m");
+            let periodNumber = periodElement.innerText;
+
+            button.style.display = "none";
+            let result = calculateBestPrediction();
+            resultText.innerText = result;
+            resultText.classList.remove("fadeInScale");
+            void resultText.offsetWidth;
+            resultText.classList.add("fadeInScale");
+
+            let checkPeriodChange = setInterval(() => {
+                let newPeriodNumber = document.getElementById("period1m").innerText;
+                if (newPeriodNumber !== periodNumber) {
+                    button.style.display = "block";
+                    clearInterval(checkPeriodChange);
+                }
+            }, 1000);
+        }
+
+        function calculateBestPrediction() {
+            let lastResults = ["3", "3", "7", "2", "5"];
+            let bigCount = 0;
+            let smallCount = 0;
+            let lastNumber = parseInt(lastResults[lastResults.length - 1]);
+
+            for (let num of lastResults) {
+                let value = parseInt(num);
+                value >= 5 ? bigCount++ : smallCount++;
+            }
+
+            let prediction = bigCount > smallCount ? "SMALL" : bigCount < smallCount ? "BIGG" : (lastNumber >= 5 ? "SMALL" : "BIGG");
+
+            return Math.random() > 0.5 ? prediction : (prediction === "BIGG" ? "SMALL" : "BIGG");
+        }
+
+        function nextPage() {
+            document.getElementById("firstUI").remove();
+            document.getElementById("secondUI").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
